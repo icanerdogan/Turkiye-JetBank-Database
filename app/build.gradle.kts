@@ -112,6 +112,11 @@ dependencies {
 
     // Lottie Animation
     implementation("com.airbnb.android:lottie-compose:6.4.1")
+
+    // Material Icons
+    implementation("androidx.compose.material:material-icons-core:1.6.8")
+    implementation("androidx.compose.material:material-icons-core-android:1.6.8")
+    implementation("androidx.compose.material:material-icons-extended:1.6.8")
 }
 
 // Allow references to generated code

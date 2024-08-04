@@ -7,10 +7,10 @@
     <string name="district">İlçe: </string>
     <string name="bank_branch">Banka Şubesi: </string>
     <string name="bank_type">Banka Türü: </string>
-    <string name="bank_code">Banka Kodu: </string>
+    <string name="bank_code">Banka Kodu</string>
     <string name="address_name">Adres Adı: </string>
     <string name="address">Adres: </string>
-    <string name="postal_code">Posta Kodu: </string>
+    <string name="postal_code">Posta Kodu</string>
     <string name="on_off_line">Çevrimiçi/Çevrimdışı: </string>
     <string name="on_off_site">Site İçi/Site Dışı: </string>
     <string name="region_coordinator">Bölge Koordinatörü: </string>

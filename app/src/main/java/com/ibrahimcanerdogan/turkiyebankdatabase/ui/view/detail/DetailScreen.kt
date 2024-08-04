@@ -4,25 +4,45 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.util.Log
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Atm
+import androidx.compose.material.icons.filled.LocationCity
 import androidx.compose.material.icons.filled.LocationOn
+import androidx.compose.material.icons.filled.Public
+import androidx.compose.material.icons.filled.Store
 import androidx.compose.material3.Card
+import androidx.compose.material3.Divider
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.gson.Gson
@@ -67,33 +87,96 @@ fun DetailScreen(bankDataJson: String) {
     }
 }
 
+@Preview
 @Composable
-fun BankDetailCard(bankData: BankDataItem) {
+fun BankDetailCard(bankData: BankDataItem = BankDataItem()) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(16.dp),
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(30.dp),
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
                 .fillMaxWidth()
+                .padding(vertical = 30.dp, horizontal = 10.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = stringResource(R.string.city) + " ${bankData.bankCity}")
-            Text(text = stringResource(R.string.district) + " ${bankData.bankDistrict}")
-            Text(text = stringResource(R.string.bank_branch) + " ${bankData.bankBranch}")
-            Text(text = stringResource(R.string.bank_type) + " ${bankData.bankType}")
-            Text(text = stringResource(R.string.bank_code) + " ${bankData.bankCode}")
-            Text(text = stringResource(R.string.address_name) + " ${bankData.bankAddressName}")
-            Text(text = stringResource(R.string.address) + " ${bankData.bankAddress}")
-            Text(text = stringResource(R.string.postal_code) + " ${bankData.bankPostalCode}")
-            Text(text = stringResource(R.string.on_off_line) + " ${bankData.bankOffLine}")
-            Text(text = stringResource(R.string.on_off_site) + " ${bankData.bankOffSite}")
-            Text(text = stringResource(R.string.region_coordinator) + " ${bankData.bankCoordinate}")
-            Text(text = stringResource(R.string.nearest_atm) + " ${bankData.bankAtm}")
+            Spacer(modifier = Modifier.height(10.dp))
+
+            Text(
+                text = stringResource(R.string.bank_code),
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Light
+                )
+            )
+            Text(
+                text = "${bankData.bankCode}",
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+            Text(
+                text = stringResource(R.string.postal_code),
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 13.sp,
+                    fontWeight = FontWeight.Light
+                )
+            )
+            Text(
+                text = "${bankData.bankPostalCode}",
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 17.sp,
+                    fontWeight = FontWeight.SemiBold
+                )
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            BankCardDetailItem(Icons.Default.LocationCity, "${bankData.bankCity} / ${bankData.bankDistrict}")
+            BankCardDetailItem(Icons.Default.Store, "${bankData.bankAddressName}")
+            BankCardDetailItem(Icons.Default.LocationOn, "${bankData.bankAddress}")
+            BankCardDetailItem(Icons.Default.Public, "${bankData.bankCoordinate}")
+            BankCardDetailItem(Icons.Default.Atm, "${bankData.bankAtm}")
+
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
+}
+
+@Composable
+fun BankCardDetailItem(
+    bankItemVector: ImageVector,
+    bankItemText: String?
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = bankItemVector,
+            modifier = Modifier.size(30.dp),
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            contentDescription = ""
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = "${bankItemText}",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.secondary,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold
+            )
+        )
+    }
+    Spacer(modifier = Modifier.height(5.dp))
 }
 
 private fun startMapIntent(

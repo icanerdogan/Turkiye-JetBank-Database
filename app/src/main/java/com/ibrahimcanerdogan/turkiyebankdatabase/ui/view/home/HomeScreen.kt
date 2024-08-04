@@ -10,13 +10,20 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalance
 import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -28,10 +35,16 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.google.gson.Gson
@@ -162,28 +175,63 @@ fun HomeScreen(navController: NavController) {
 
 }
 
+@Preview
 @Composable
-fun BankDataCard(bankItem: BankDataItem, onClickToCard: () -> Unit) {
+fun BankDataCard(
+    bankItem: BankDataItem = BankDataItem(),
+    onClickToCard: () -> Unit = {}
+) {
     Card(
         modifier = Modifier
-            .padding(32.dp)
+            .padding(vertical = 10.dp, horizontal = 20.dp)
             .clickable(onClick = onClickToCard)
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = stringResource(R.string.city) + " ${bankItem.bankCity}")
-            Text(text = stringResource(R.string.district) + " ${bankItem.bankDistrict}")
-            Text(text = stringResource(R.string.bank_branch) + " ${bankItem.bankBranch}")
-            Text(text = stringResource(R.string.bank_type) + " ${bankItem.bankType}")
-            Text(text = stringResource(R.string.bank_code) + " ${bankItem.bankCode}")
-            Text(text = stringResource(R.string.address_name) + " ${bankItem.bankAddressName}")
-            Text(text = stringResource(R.string.address) + " ${bankItem.bankAddress}")
-            Text(text = stringResource(R.string.postal_code) + " ${bankItem.bankPostalCode}")
-            Text(text = stringResource(R.string.on_off_line) + " ${bankItem.bankOffLine}")
-            Text(text = stringResource(R.string.on_off_site) + " ${bankItem.bankOffSite}")
-            Text(text = stringResource(R.string.region_coordinator) + " ${bankItem.bankCoordinate}")
-            Text(text = stringResource(R.string.nearest_atm) + " ${bankItem.bankAtm}")
+        Column(modifier = Modifier.padding(15.dp)) {
+            if (bankItem.bankBranch.isNullOrEmpty()) {
+                BankDataCardItem(Icons.Default.AccountBalance, "${bankItem.bankDistrict} ŞUBESİ/${bankItem.bankCity}")
+            } else {
+                BankDataCardItem(Icons.Default.AccountBalance, bankItem.bankBranch)
+            }
+            Spacer(modifier = Modifier.height(20.dp))
+            Text(
+                text = "${bankItem.bankAddress}",
+                style = TextStyle(
+                    color = MaterialTheme.colorScheme.secondary,
+                    fontSize = 15.sp,
+                    fontWeight = FontWeight.Normal,
+                    fontStyle = FontStyle.Italic
+                )
+            )
         }
     }
+}
+
+@Composable
+fun BankDataCardItem(
+    bankItemVector: ImageVector,
+    bankItemText: String?
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Icon(
+            imageVector = bankItemVector,
+            modifier = Modifier.size(30.dp),
+            tint = MaterialTheme.colorScheme.onPrimaryContainer,
+            contentDescription = ""
+        )
+        Spacer(modifier = Modifier.width(10.dp))
+        Text(
+            text = "${bankItemText}",
+            style = TextStyle(
+                color = MaterialTheme.colorScheme.secondary,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Medium
+            )
+        )
+    }
+    Spacer(modifier = Modifier.height(5.dp))
 }
 
 private fun changeLanguage(

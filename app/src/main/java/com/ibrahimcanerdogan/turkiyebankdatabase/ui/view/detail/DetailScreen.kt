@@ -172,7 +172,7 @@ fun BankCardDetailItem(
             style = TextStyle(
                 color = MaterialTheme.colorScheme.secondary,
                 fontSize = 17.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Medium
             )
         )
     }

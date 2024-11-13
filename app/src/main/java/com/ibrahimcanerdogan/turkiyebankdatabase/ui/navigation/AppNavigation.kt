@@ -1,6 +1,8 @@
 package com.ibrahimcanerdogan.turkiyebankdatabase.ui.navigation
 
 import androidx.compose.animation.core.FastOutLinearInEasing
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
@@ -21,46 +23,23 @@ fun AppNavigation(navController: NavHostController) {
         startDestination = AppScreen.SPLASH_SCREEN.name
     ) {
         composable(
-            route = AppScreen.SPLASH_SCREEN.name,
-            enterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { 1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
-                )
-            },
-            exitTransition = {
-                slideOutHorizontally(
-                    targetOffsetX = { -1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
-                )
-            },
-            popEnterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { -1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
-                )
-            }
+            route = AppScreen.SPLASH_SCREEN.name
         ) {
             SplashScreen(navController = navController)
         }
         composable(
             route = AppScreen.HOME_SCREEN.name,
             enterTransition = {
+                // https://developer.android.com/develop/ui/compose/animation/customize
                 slideInHorizontally(
-                    initialOffsetX = { 1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
+                    initialOffsetX = { -1000 },
+                    animationSpec = tween(500, easing = LinearOutSlowInEasing)
                 )
             },
             exitTransition = {
                 slideOutHorizontally(
                     targetOffsetX = { -1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
-                )
-            },
-            popEnterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { -1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
+                    animationSpec = tween(500, easing = FastOutSlowInEasing)
                 )
             }
         ) {
@@ -68,24 +47,6 @@ fun AppNavigation(navController: NavHostController) {
         }
         composable(
             route = "${AppScreen.DETAIL_SCREEN.name}/{bankDataJson}",
-            enterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { 1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
-                )
-            },
-            exitTransition = {
-                slideOutHorizontally(
-                    targetOffsetX = { -1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
-                )
-            },
-            popEnterTransition = {
-                slideInHorizontally(
-                    initialOffsetX = { -1000 },
-                    animationSpec = tween(500, easing = FastOutLinearInEasing)
-                )
-            },
             arguments = listOf(navArgument("bankDataJson") {
                 type = NavType.StringType
             })
